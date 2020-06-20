@@ -16,12 +16,12 @@ public class AddUserServlet extends HttpServlet {
 
     UserManager userManager = new UserManager();
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String type = req.getParameter("type");
         User user = null;
         try {
             user = User.builder()
@@ -29,7 +29,7 @@ public class AddUserServlet extends HttpServlet {
                     .surname(surname)
                     .email(email)
                     .password(password)
-                    .userType(UserType.USER)
+                    .userType(UserType.valueOf(type))
                     .build();
             userManager.register(user);
         } catch (Exception e) {

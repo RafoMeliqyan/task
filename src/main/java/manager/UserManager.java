@@ -16,18 +16,19 @@ public class UserManager {
     }
 
     public boolean register(User user) {
-        String sql = "INSERT INTO user(name,surname,email,password) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO user(name,surname,email,password,type) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
+            statement.setString(5, user.getUserType().name());
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                user.setId(rs.getLong(1));
+                user.setId(rs.getInt(1));
             }
             return true;
         } catch (SQLException e) {
@@ -36,14 +37,20 @@ public class UserManager {
         }
     }
 
-    public User getById(long id) {
-        String sql = "SELECT * FROM user WHERE id = " + id;
+    public User getById(int id) {
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE id = ?");
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return getUserFromResultSet(resultSet);
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setUserType(UserType.valueOf(resultSet.getString("type")));
+                return user;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,12 +92,12 @@ public class UserManager {
     private User getUserFromResultSet(ResultSet resultSet) {
         try {
             return User.builder()
-                    .id(resultSet.getLong(1))
+                    .id(resultSet.getInt(1))
                     .name(resultSet.getString(2))
                     .surname(resultSet.getString(3))
                     .email(resultSet.getString(4))
                     .password(resultSet.getString(5))
-                    .userType(UserType.USER)
+                    .userType(UserType.valueOf(resultSet.getString(6)))
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();

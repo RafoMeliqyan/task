@@ -1,8 +1,9 @@
 package servlet;
 
 import manager.TaskManager;
-import model.Status;
+import model.TaskStatus;
 import model.Task;
+import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,16 +22,18 @@ public class AddTaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        String desc = req.getParameter("desc");
+        String description = req.getParameter("description");
         String deadline = req.getParameter("deadline");
+        String status = req.getParameter("status");
+        int userId = Integer.parseInt(req.getParameter("user_id"));
         Task task = null;
         try {
             task = Task.builder()
                     .name(name)
-                    .desc(desc)
+                    .description(description)
                     .deadline(sdf.parse(deadline))
-                    .status(Status.TASK)
-                    .user_id(2)
+                    .taskStatus(TaskStatus.valueOf(status))
+                    .user_id(userId)
                     .build();
             taskManager.addTask(task);
         } catch (ParseException e) {

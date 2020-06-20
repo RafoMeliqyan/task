@@ -12,10 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Task {
-    private long id;
+    private int id;
     private String name;
-    private String desc;
+    private String description;
     private Date deadline;
-    private Status status;
+    private TaskStatus taskStatus;
     private int user_id;
+    private User user;
 }
