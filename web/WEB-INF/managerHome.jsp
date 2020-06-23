@@ -27,7 +27,8 @@
     if (user != null) {
 %>
 
-Welcome <%= user.getName() + " " + user.getSurname() %>
+Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
+<img src="/image?path=<%=user.getPictureUrl()%>" width="70"/> <% } %> <br>
 
 <% } %>
 
@@ -40,12 +41,13 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
     <div style="width: 50%; float: right; margin-right: 200px">
         Add User: <br>
 
-        <form action="/addUser" method="post">
+        <form action="/addUser" method="post" enctype="multipart/form-data">
 
             <input type="text" name="name" placeholder="name..."> <br>
             <input type="text" name="surname" placeholder="surname..."> <br>
             <input type="text" name="email" placeholder="email..."> <br>
             <input type="password" name="password" placeholder="password..."> <br>
+            <input type="file" name="image"> <br>
             <select name="type">
                 <option value="USER">USER</option>
                 <option value="MANAGER">MANAGER</option>
@@ -57,7 +59,7 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
     <div style="width: 50%">
         Add Task: <br>
 
-        <form action="/addTask" method="post">
+        <form action="/addTask" method="post" enctype="multipart/form-data">
 
             <input type="text" name="name" placeholder="name..."> <br>
             <textarea name="description" placeholder="description..."></textarea> <br>
@@ -77,6 +79,7 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
                     }
                 %>
             </select> <br>
+            <input type="file" name="image"> <br>
             <input type="submit" value="add Task"> <br>
         </form>
     </div>
@@ -92,6 +95,7 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
             <td>Surname</td>
             <td>Email</td>
             <td>UserType</td>
+            <td>Image</td>
             <td>Delete</td>
         </tr>
 
@@ -107,6 +111,8 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
             <td><%=user1.getEmail()%>
             </td>
             <td><%=user1.getUserType().name()%>
+            <td><% if (user1.getPictureUrl() != null) { %>
+                <img src="/image?path=<%=user1.getPictureUrl()%>" width="70"/> <% } %>
             </td>
             <td><a href="/removeUser?id=<%=user1.getId()%>">delete</a></td>
         </tr>
@@ -126,6 +132,7 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
             <td>Deadline</td>
             <td>Status</td>
             <td>User</td>
+            <td>Image</td>
             <td>Delete</td>
         </tr>
 
@@ -143,6 +150,9 @@ Welcome <%= user.getName() + " " + user.getSurname() %>
             <td><%=task.getTaskStatus().name()%>
             </td>
             <td><%=task.getUser().getName() + " " + task.getUser().getSurname()%>
+            </td>
+            <td><% if (task.getPictureUrl() != null) { %>
+                <img src="/image?path=<%=task.getPictureUrl()%>" width="70"/> <% } %>
             </td>
             <td><a href="/removeTask?id=<%=task.getId()%>">delete</a></td>
         </tr>

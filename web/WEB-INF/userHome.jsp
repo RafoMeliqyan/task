@@ -15,7 +15,9 @@
     if (user != null) {
 %>
 
-Welcome <%=user.getName() + " " + user.getSurname()%> <br> <br>
+Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
+<img src="/image?path=<%=user.getPictureUrl()%>" width="70" /> <% } %> <br>
+
 
 <% } %>
 <a href="/logout">Logout</a> <br>
@@ -30,7 +32,8 @@ My Tasks: <br>
             <td>Description</td>
             <td>Deadline</td>
             <td>Status</td>
-            <td>UserId</td>
+            <td>User</td>
+            <td>Image</td>
             <td>Update Status</td>
         </tr>
 
@@ -48,6 +51,10 @@ My Tasks: <br>
             <td><%=task.getTaskStatus().name()%>
             </td>
             <td><%=task.getUser().getName()%>
+            </td>
+            <td><% if (task.getPictureUrl() != null) { %>
+                <img src="/image?path=<%=task.getPictureUrl()%>" width="70" /> <% } %>
+            </td>
             <td>
                 <form action="/changeTaskStatus" method="post">
                     <input type="hidden" name="taskId" value="<%=task.getId()%>">

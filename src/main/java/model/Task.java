@@ -19,4 +19,5 @@ public class Task {
     private TaskStatus taskStatus;
     private int user_id;
     private User user;
+    private String pictureUrl;
 }

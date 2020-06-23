@@ -36,6 +36,7 @@ public class TaskManager {
                 task.setDeadline(sdf.parse(resultSet.getString("deadline")));
                 task.setTaskStatus(TaskStatus.valueOf(resultSet.getString("status")));
                 task.setUser_id(resultSet.getInt("user_id"));
+                task.setPictureUrl(resultSet.getString("picture_url"));
                 task.setUser(userManager.getById(task.getUser_id()));
                 tasks.add(task);
             }
@@ -61,6 +62,7 @@ public class TaskManager {
                 task.setDeadline(sdf.parse(resultSet.getString("deadline")));
                 task.setTaskStatus(TaskStatus.valueOf(resultSet.getString("status")));
                 task.setUser_id(resultSet.getInt("user_id"));
+                task.setPictureUrl(resultSet.getString("picture_url"));
                 task.setUser(userManager.getById(task.getUser_id()));
                 tasks.add(task);
             }
@@ -82,6 +84,7 @@ public class TaskManager {
                     .deadline(resultSet.getString(4) == null ? null : sdf.parse(resultSet.getString(4)))
                     .taskStatus(TaskStatus.valueOf(resultSet.getString(5)))
                     .user_id(resultSet.getInt(6))
+                    .pictureUrl(resultSet.getString(7))
                     .build();
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
@@ -90,7 +93,7 @@ public class TaskManager {
     }
 
     public boolean addTask(Task task) {
-        String sql = "INSERT INTO task(`name`,`description`,`deadline`,`status`,`user_id`) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO task(`name`,`description`,`deadline`,`status`,`user_id`,`picture_url`) VALUES(?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, task.getName());
@@ -102,6 +105,7 @@ public class TaskManager {
             }
             statement.setString(4, task.getTaskStatus().name());
             statement.setInt(5, task.getUser_id());
+            statement.setString(6, task.getPictureUrl());
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
