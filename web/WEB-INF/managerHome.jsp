@@ -34,11 +34,11 @@ Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
 
 <br>
 
-<a href="/logout">Logout</a> <br>
+<a href="/logout" style="text-decoration: none">Logout</a> <br>
 
 <div style="width: 800px">
 
-    <div style="width: 50%; float: right; margin-right: 200px">
+    <div style="width: 50%; float: right; margin-right: 100px">
         Add User: <br>
 
         <form action="/addUser" method="post" enctype="multipart/form-data">
@@ -114,13 +114,15 @@ Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
             <td><% if (user1.getPictureUrl() != null) { %>
                 <img src="/image?path=<%=user1.getPictureUrl()%>" width="70"/> <% } %>
             </td>
-            <td><a href="/removeUser?id=<%=user1.getId()%>">delete</a></td>
+            <td><a href="/removeUser?id=<%=user1.getId()%>" style="text-decoration: none">Delete</a></td>
         </tr>
 
         <% } %>
 
     </table>
 </div>
+
+<br>
 
 <div>
     All Tasks: <br>
@@ -154,7 +156,7 @@ Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
             <td><% if (task.getPictureUrl() != null) { %>
                 <img src="/image?path=<%=task.getPictureUrl()%>" width="70"/> <% } %>
             </td>
-            <td><a href="/removeTask?id=<%=task.getId()%>">delete</a></td>
+            <td><a href="/removeTask?id=<%=task.getId()%>" style="text-decoration: none">Delete</a></td>
         </tr>
 
         <% } %>

@@ -15,12 +15,12 @@
     if (user != null) {
 %>
 
-Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
+Welcome <%=user.getName()%> <br> Avatar: <br> <% if (user.getPictureUrl() != null) { %>
 <img src="/image?path=<%=user.getPictureUrl()%>" width="70" /> <% } %> <br>
 
 
 <% } %>
-<a href="/logout">Logout</a> <br>
+<a href="/logout" style="text-decoration: none">Logout</a> <br> <br>
 
 My Tasks: <br>
 

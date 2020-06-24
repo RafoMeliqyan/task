@@ -18,6 +18,6 @@ public class RemoveUserServlet extends HttpServlet {
         int userId = Integer.parseInt(id);
         UserManager userManager = new UserManager();
         userManager.removeUserById(userId);
-        resp.sendRedirect("/managerHome");
+        resp.sendRedirect("/");
     }
 }

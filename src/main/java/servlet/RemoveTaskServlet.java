@@ -18,6 +18,6 @@ public class RemoveTaskServlet extends HttpServlet {
         int taskId = Integer.parseInt(id);
         TaskManager taskManager = new TaskManager();
         taskManager.removeTask(taskId);
-        resp.sendRedirect("/managerHome");
+        resp.sendRedirect("/");
     }
 }
