@@ -1,6 +1,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Task" %>
+<%@ page import="model.Comment" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,6 +25,7 @@
     User user = (User) session.getAttribute("user");
     List<User> users = (List<User>) request.getAttribute("allUsers");
     List<Task> tasks = (List<Task>) request.getAttribute("allTasks");
+    List<Comment> comments = (List<Comment>) request.getAttribute("allComments");
     if (user != null) {
 %>
 
@@ -71,13 +73,10 @@ Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
             </select> <br>
 
             <select name="user_id">
-                <%
-                    for (User user1 : users) { %>
+                <% for (User user1 : users) { %>
                 <option value="<%=user1.getId()%>"><%=user1.getName()%> <%=user1.getSurname()%>
                 </option>
-                <%
-                    }
-                %>
+                <% } %>
             </select> <br>
             <input type="file" name="image"> <br>
             <input type="submit" value="add Task"> <br>
@@ -163,6 +162,36 @@ Welcome <%=user.getName()%> <br> <% if (user.getPictureUrl() != null) { %>
 
     </table>
 </div>
+
+Add comment: <br>
+<form action="/addCommentManager" method="post">
+    <select name="taskId">
+    <% for (Task task : tasks) { %>
+        <option value="<%=task.getId()%>"><%=task.getName()%>
+        </option>
+    <% } %>
+    </select> <br>
+    <input type="hidden" name="userId" value="<%=user.getId()%>">
+    <input type="text" name="comment" placeholder="Comment"> <br>
+    <input type="submit" value="Add comment">
+</form>
+
+All Comments: <br>
+<% for (Comment comment : comments) { %>
+<%=comment.getUser().getName() + " " + comment.getUser().getSurname()%> <br>
+Avatar: <br> <% if (comment.getUser().getPictureUrl() != null) { %>
+<img src="/image?path=<%=comment.getUser().getPictureUrl()%>" width="70"/> <% } %> <br>
+Comment - <%=comment.getComment()%> <br>
+Task: <br>
+Name - <%=comment.getTask().getName()%> <br>
+Description - <%=comment.getTask().getDescription()%> <br>
+Deadline - <%=comment.getTask().getDeadline()%> <br>
+Status - <%=comment.getTask().getTaskStatus().name()%> <br>
+Image - <% if (comment.getTask().getPictureUrl() != null) { %>
+<img src="/image?path=<%=comment.getTask().getPictureUrl()%>" width="40"/> <% } %> <br>
+Date - <%=comment.getDate()%> <a href="/removeCommentManager?id=<%=comment.getId()%>"><p
+        style="display: inline-block; color: red">X</p></a> <br>
+<% } %>
 
 </body>
 </html>

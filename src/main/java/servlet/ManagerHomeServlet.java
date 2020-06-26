@@ -1,10 +1,11 @@
 package servlet;
 
+import manager.CommentManager;
 import manager.TaskManager;
 import manager.UserManager;
+import model.Comment;
 import model.Task;
 import model.User;
-import model.UserType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ManagerHomeServlet extends HttpServlet {
     TaskManager taskManager = new TaskManager();
     UserManager userManager = new UserManager();
+    CommentManager commentManager = new CommentManager();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,8 +29,10 @@ public class ManagerHomeServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         List<Task> allTasks = taskManager.getAllTasks();
         List<User> allUsers = userManager.getAllUsers();
+        List<Comment> allComments = commentManager.getAllComments();
         req.setAttribute("allTasks", allTasks);
         req.setAttribute("allUsers", allUsers);
+        req.setAttribute("allComments", allComments);
         req.getRequestDispatcher("/WEB-INF/managerHome.jsp").forward(req, resp);
     }
 }

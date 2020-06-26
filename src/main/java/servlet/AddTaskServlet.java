@@ -3,7 +3,6 @@ package servlet;
 import manager.TaskManager;
 import model.TaskStatus;
 import model.Task;
-import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

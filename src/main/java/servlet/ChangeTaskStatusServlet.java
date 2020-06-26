@@ -27,7 +27,7 @@ public class ChangeTaskStatusServlet extends HttpServlet {
         if (user.getUserType() == UserType.MANAGER) {
             resp.sendRedirect("/managerHome");
         } else {
-            resp.sendRedirect("/userHome");
+            resp.sendRedirect("/userTasks");
         }
     }
 }

@@ -2,11 +2,9 @@ package servlet;
 
 import manager.CommentManager;
 import manager.TaskManager;
-import manager.UserManager;
 import model.Comment;
 import model.Task;
 import model.User;
-import model.UserType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/userHome")
-public class UserHomeServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/userTasks")
+public class UserTasksServlet extends HttpServlet {
     TaskManager taskManager = new TaskManager();
     CommentManager commentManager = new CommentManager();
     @Override
@@ -29,6 +27,6 @@ public class UserHomeServlet extends HttpServlet {
         List<Comment> allComments = commentManager.getAllComments();
         req.setAttribute("tasks", tasksByUserId);
         req.setAttribute("allComments", allComments);
-        req.getRequestDispatcher("/WEB-INF/userHome.jsp").forward(req, resp);
+        req.getRequestDispatcher("/userTasks.jsp").forward(req, resp);
     }
 }

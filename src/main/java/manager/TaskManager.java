@@ -3,6 +3,7 @@ package manager;
 import db.DBConnectionProvider;
 import model.TaskStatus;
 import model.Task;
+import model.User;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -73,7 +74,20 @@ public class TaskManager {
         return null;
     }
 
-
+    public Task getByUserId(int userId) {
+        String sql = "SELECT * FROM task WHERE user_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return getTaskFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private Task getTaskFromResultSet(ResultSet resultSet) {
         try {
